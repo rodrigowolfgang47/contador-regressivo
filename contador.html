@@ -1,0 +1,100 @@
+<script>
+    var dataDeInicio = '2022/02/21 12:00:00',
+        dataDeTermino = '2022/02/22 12:00:00',
+        dataDeInicioDaContagem = new Date(dataDeInicio).getTime(),
+        dataDeFimDaContagem = new Date(dataDeTermino).getTime(),
+        dias, horas, minutos, segundos,
+        estaRodando = false;
+
+    function contador(dataDeInicio) {
+        var horaAtual = new Date().getTime(),
+            distancia = dataDeInicio - horaAtual;
+        dias = (Math.floor(distancia / (1000 * 60 * 60 * 24)));
+        horas = (Math.floor(distancia / (1000 * 60 * 60)));
+        minutos = ('00' + Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60))).substr(-2);
+        segundos = ('00' + Math.floor((distancia % (1000 * 60)) / 1000)).substr(-2);
+        console.log(`${dias}:${horas}:${minutos}:${segundos}`)
+    }
+
+    var x = setInterval(function () {
+        var agora = new Date().getTime(),
+            distanciaDeInicio = dataDeInicioDaContagem - agora;
+            console.log('chegou aqui')
+        if (distanciaDeInicio > 0) {
+            contador(dataDeInicioDaContagem)
+            document.querySelector('.etn-c.etn-day').innerHTML = dias;
+            document.querySelector('.etn-c.etn-hour').innerHTML = horas;
+            document.querySelector('.etn-c.etn-minute').innerHTML = minutos;
+            document.querySelector('.etn-c.etn-second').innerHTML = segundos;
+        } else {
+            var distance = dataDeFimDaContagem - agora;
+            if (distance > 0) {
+                estaRodando = true;
+                contador(dataDeFimDaContagem);
+                document.querySelector('.etn-c.etn-day').innerHTML = dias;
+                document.querySelector('.etn-c.etn-hour').innerHTML = horas;
+                document.querySelector('.etn-c.etn-minute').innerHTML = minutos;
+                document.querySelector('.etn-c.etn-second').innerHTML = segundos;
+                document.querySelector('.etn-time-countdown').removeAttribute('style');
+            } else {
+                clearInterval(x);
+            }
+        }
+    }, 1000);
+</script>
+
+<style>
+    .d-flex{
+        display: flex;
+    }
+
+    .timer-mosaic{
+        width: 100%;
+        justify-content: center;
+    }
+    .timer-mosaic__inner{
+        flex-direction: column;
+    }
+    
+    .etn-each-time {
+        align-items: center;
+    }
+
+    .etn-each-time p{
+        font-size: 22px;
+    }
+
+    .etn-each-time span{
+        margin: 0px 4px;
+    }
+
+</style>
+
+<div class="timer-mosaic d-flex">
+    <div class="timer-mosaic__inner title d-flex">
+      <div class="timer-mosaic__title">
+        <h2>Oferta do dia</h2>
+        <h3>24 horas de oferta</h3>
+      </div>
+      <div class="etn-countdown">
+        <div class="etn-time-countdown d-flex">
+          <div class="etn-each-time d-flex">
+            <p class="etn-c etn-day">00</p>
+            <span class="etn-label">dias</span>
+          </div>
+          <div class="etn-each-time d-flex">
+            <p class="etn-c etn-hour">00</p>
+            <span class="etn-label">horas</span>
+          </div>
+          <div class="etn-each-time d-flex">
+            <p class="etn-c etn-minute">00</p>
+            <span class="etn-label">minutos</span>
+          </div>
+          <div class="etn-each-time d-flex">
+            <p class="etn-c etn-second">00</p>
+            <span class="etn-label">segundos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
